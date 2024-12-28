@@ -1,10 +1,11 @@
 //Express
 const express = require('express');
 const mongoose = require('mongoose');
-
+const cors = require('cors')
 //create an instance of express
 const app=express();
 app.use(express.json())
+app.use(cors())
 //Sample in-memory storage for todo items
 //let todos = [];
 
@@ -101,7 +102,7 @@ app.delete("/todos/:id",async(req,res)=>{
 })
 
 //Start the server
-const port = 3000;
+const port = 8000;
 app.listen(port,()=>{
   console.log("server is listening to port"+port);
 })
