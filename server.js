@@ -62,7 +62,42 @@ app.get('/todos',async(req,res)=>{
     console.log(error)
     res.status(500).json({message:error.message});   
   }
-  res.json(todos);
+// res.json(todos);
+})
+
+//update a todo item
+app.put("/todos/:id",async(req,res)=>{
+  try{
+    const{title,description}= req.body;
+  const id = req.params.id;
+  const updatedTodo = await todoModel.findByIdAndUpdate(
+    id,
+    {title,description},
+    { new:true }
+  )
+  if(!updatedTodo){
+    return res.status(404).json({message:"Todo not found"})
+  }
+  res.json(updatedTodo)
+  }catch(error) {
+    console.log(error)
+    res.status(500).json({message:error.message});   
+  }
+  
+})
+
+//delete a todo-item
+app.delete("/todos/:id",async(req,res)=>{
+  try{
+    const id = req.params.id;
+    await todoModel.findByIdAndDelete(id);
+    res.status(204).end();
+  }catch(error){
+    console.log(error)
+    res.status(500).json({message:error.message});
+  }
+ 
+
 })
 
 //Start the server
